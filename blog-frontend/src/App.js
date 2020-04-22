@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Fragment } from 'react';
 import './App.css';
+import {Route} from 'react-router-dom';
+import PostListPage from './pages/PostListPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import WritePage from './pages/WritePage';
+import PostPage from './pages/PostPage';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+    return (
+        <Fragment>
+            <Route component={PostListPage} path={['/@:username','/']} exact />
+            <Route component={LoginPage} path="/login" />
+            <Route component={RegisterPage} path="/register" />
+            <Route component={WritePage} path="/write" />
+            <Route component={PostPage} path="/@:username/:postId" />
+        </Fragment>
+    )
 }
+
+// PostListPage 에서처럼 path에 배열을 넣어주면 여러개의 경로를 설정할 수 있다.
+// 또한 @:username처럼 @ 를 사용하면 http://localhost:3000/@kmc 같은 경로에서 kmc 를 파라미터로 읽을 수 있게 해준다 
 
 export default App;
