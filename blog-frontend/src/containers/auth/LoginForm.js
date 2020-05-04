@@ -4,8 +4,8 @@ import { changeField, initializeForm } from '../../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
 const LoginForm = () => {
     const dispatch = useDispatch();
-    const {form} = useSelector(({auth}) => ({
-        form: auth.login
+    const {form} = useSelector(({auths}) => ({
+        form: auths.login
     }));
     //인풋 변경 이벤트 핸들러
     const onChange = e => {

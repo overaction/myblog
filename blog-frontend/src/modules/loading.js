@@ -17,9 +17,9 @@ const initialState = {};
 
 const loading = handleActions(
     {
-        [START_LOADING]: (state, {payload : {val}}) => ({
+        [START_LOADING]: (state, {payload : {value}}) => ({
             ...state,
-            [val]: true,
+            [value]: true,
         }),
         [FINISH_LOADING]: (state,{payload: {val}}) => ({
             ...state,

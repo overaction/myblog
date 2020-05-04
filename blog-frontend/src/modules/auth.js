@@ -25,10 +25,12 @@ export const changeField = createAction(
 );
 
 export const initializeForm = createAction(INITIALIZE_FORM, form => form); // register, login
+
 export const register = createAction(REGISTER, ({username, password}) => ({
     username,
     password,
 }));
+
 export const login = createAction(LOGIN, ({username, password}) => ({
     username: username,
     password: password,
@@ -70,7 +72,7 @@ const auth = handleActions(
         [REGISTER_SUCCESS]: (state, {payload: auth}) => ({
             ...state,
             authError: null,
-            auth,
+            auth: auth,
         }),
         [REGISTER_FAILURE]: (state, {payload: error}) => ({
             ...state,
