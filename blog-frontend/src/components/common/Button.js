@@ -1,9 +1,9 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
-import {withRouter} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import palette from '../../lib/styles/palette';
 
-const StyledButton = styled.button`
+const buttonStyle = css`
     border: none;
     border-radius: 4px;
     font-size: 1rem;
@@ -35,17 +35,20 @@ const StyledButton = styled.button`
         `}
 `;
 
-const Button = ({to, history, ...props}) => {
-    const onClick = some => {
-        if(to) history.push(to);
-        
-    }
-    return <StyledButton {...props} onClick={onClick} />;
+const StyledButton = styled.button`
+    ${buttonStyle}
+`;
+
+const StyledLink = styled(Link)`
+    ${buttonStyle}
+`;
+
+const Button = (props) => {
+    return props.to ? (
+        <StyledLink {...props} cyan={props.cyan ? 1 : 0} />
+    ) : (
+        <StyledButton {...props} />
+    );
 };
 
-
-// 그냥 export default StyledButton 을 해줘도 된다
-// 하지만 styled-components로 만든 컴포넌트는 자동 import가 되지 않는다
-// 따라서 {...props} 를 통해 Button이 받아오는 props를 모두 StyledButton에 전달하게 렌더링을 했다
-
-export default withRouter(Button);
+export default Button;
