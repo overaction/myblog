@@ -50,6 +50,11 @@ const LoginForm = ({history}) => {
     useEffect(() => {
         if(user) {
             history.pushState('/');
+            try {
+                localStorage.setItem('user', JSON.stringify(user));
+            } catch (e) {
+                console.log('error.. localstorage is not working');
+            }
         }
     },[history,user]);
 

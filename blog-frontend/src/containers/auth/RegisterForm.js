@@ -79,6 +79,11 @@ const RegisterForm = ({history}) => {
             console.log('check API 성공');
             console.log(user);
             history.push('/'); // 홈화면으로 이동
+            try {
+                localStorage.setItem('user', JSON.stringify(user));
+            } catch (e) {
+                console.log('error.. localstorage is not working');
+            }
         }
     }, [history,user]);
     console.log(`user값 : ${user}`);
