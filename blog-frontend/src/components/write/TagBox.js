@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useCallback} from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 
@@ -61,25 +61,55 @@ const TagListBlock = styled.div`
 `;
 
 //React.memo 사용으로 tag값이 바뀔 때만 리렌더링
-const TagItem = React.memo(({tag}) => <Tag>#{tag}</Tag>);
+const TagItem = React.memo(({tag, onRemove}) => (
+    <Tag onClick={() => onRemove(tag)}>#{tag}</Tag>
+));
 
-const TagList = React.memo(({tags}) => (
+//React.memo 사용으로 tags값이 바뀔 때만 리렌더링
+const TagList = React.memo(({tags, onRemove}) => (
     <TagListBlock>
         {tags.map(tag => (
-            <TagItem key={tag} tag={tag} />
+            <TagItem key={tag} tag={tag} onRemove={onRemove}/>
         ))}
     </TagListBlock>
 ));
 
+
+
+
 const TagBox = () => {
+    const [input, setInput] = useState('');
+    const [localTags, setLocalTags] = useState([]);
+
+    //useCallback 을 사용해서 localTags가 변할 때만 함수 재호출
+    const insertTag = useCallback(tag => {
+        if(!tag) return; //공백은 추가 안함
+        if(localTags.includes(tag)) return; //중복은 추가 안함
+        setLocalTags([...localTags, tag]);
+    },[localTags]);
+
+    const onRemove = useCallback(tag => {
+        setLocalTags(localTags.filter(tg => tg !== tag));
+    },[localTags]);
+
+    const onChange = useCallback(e => {
+        setInput(e.target.value);
+    },[]);
+
+    const onSubmit = useCallback(e => {
+        e.preventDefault();
+        insertTag(input.trim()); //앞뒤 공백을 제거하고 등록
+        setInput('');
+    },[input,insertTag]);
+
     return (
         <TagBoxBlock>
             <h4>태그</h4>
-            <TagForm>
-                <input placeholder="태그를 입력하세요" />
+            <TagForm onSubmit={onSubmit}>
+                <input placeholder="태그를 입력하세요" value={input} onChange={onChange}/>
                 <button type="submit">추가</button>
             </TagForm>
-            <TagList tags={['태그1','태그2','태그3']} />
+            <TagList tags={localTags} onRemove={onRemove} />
         </TagBoxBlock>
     )
 }
