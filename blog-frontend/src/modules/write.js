@@ -1,10 +1,10 @@
-import {createAction, handleActions} from 'react-redux';
+import {createAction, handleActions} from 'redux-actions';
 
 const INITIALIZE = 'write/INITIALIZE'; //모든 내용 초기화
 const CHANGE_FIELD = 'write/CHANGE_FIELD'; //특정 key 값 바꾸기
 
 export const initialize = createAction(INITIALIZE);
-export const CHANGE_FIELD = createAction(CHANGE_FIELD, ({key, value}) => ({
+export const changefield = createAction(CHANGE_FIELD, ({key, value}) => ({
     key: key,
     value,
 }));
@@ -22,7 +22,8 @@ const write = handleActions(
             ...state,
             [key]: value,
         })
-    }
+    },
+    initialState
 );
 
 export default write;
